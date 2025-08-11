@@ -27,7 +27,7 @@ function SubmitButton() {
   return (
     <Button type="submit" className="w-full" size="lg" disabled={pending}>
       {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-      {pending ? 'Analyzing...' : 'Analyze Repository'}
+      {pending ? 'Analyze Repository' : 'Analyze Repository'}
     </Button>
   );
 }
@@ -95,26 +95,27 @@ export function AnalysisForm({ repositories }: AnalysisFormProps) {
                     </SelectContent>
                     </Select>
                 </div>
-                <div className='space-y-2'>
-                    <Label htmlFor="apiKey">Google AI API Key (Optional)</Label>
-                    <Input id="apiKey" name="apiKey" type="password" placeholder="Enter your API Key" className="h-11 text-base" />
+                 <div className='space-y-2'>
+                    <Label htmlFor="fileCount">Files to process</Label>
+                    <Select name="fileCount" required value={fileCount} onValueChange={setFileCount}>
+                    <SelectTrigger id="fileCount" className="w-full h-11 text-base">
+                        <SelectValue placeholder="Select number of files..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="5">5</SelectItem>
+                        <SelectItem value="10">10</SelectItem>
+                        <SelectItem value="15">15</SelectItem>
+                        <SelectItem value="all">All</SelectItem>
+                    </SelectContent>
+                    </Select>
                 </div>
             </div>
-
-            <div className='space-y-2'>
-                <Label htmlFor="fileCount">Files to process</Label>
-                <Select name="fileCount" required value={fileCount} onValueChange={setFileCount}>
-                <SelectTrigger id="fileCount" className="w-full h-11 text-base">
-                    <SelectValue placeholder="Select number of files..." />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="5">5</SelectItem>
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="15">15</SelectItem>
-                    <SelectItem value="all">All</SelectItem>
-                </SelectContent>
-                </Select>
+            
+             <div className='space-y-2'>
+                <Label htmlFor="apiKey">Google AI API Key (Optional)</Label>
+                <Input id="apiKey" name="apiKey" type="password" placeholder="Enter your API Key" className="h-11 text-base" />
             </div>
+
             
             <p className="text-xs text-muted-foreground pt-2">
                 Your API key is sent with each request and not stored. If left blank, the server's environment variable will be used.

@@ -19,6 +19,21 @@ export interface AnalyzeState {
   error?: string;
 }
 
+const RELEVANT_EXTENSIONS = new Set([
+  // Web
+  '.html', '.css', '.js', '.jsx', '.ts', '.tsx', '.json', '.md',
+  // Config
+  '.yaml', '.yml', '.xml', '.toml', '.ini',
+  // Backend
+  '.py', '.java', '.go', '.php', '.rb', '.cs', '.mjs',
+  // Docker
+  'dockerfile',
+  // Shell scripts
+  '.sh', '.bash',
+  // Package managers
+  'package.json', 'pom.xml', 'build.gradle', 'requirements.txt', 'gemfile',
+]);
+
 async function getRepositoryContents(repoName: string, fileCount: string): Promise<string> {
   const repoPath = path.join(process.cwd(), 'public', 'repo', repoName);
   const allFiles: string[] = [];
@@ -27,6 +42,7 @@ async function getRepositoryContents(repoName: string, fileCount: string): Promi
     try {
       const entries = await fs.readdir(dir, { withFileTypes: true });
       for (const entry of entries) {
+        // Exclude common large/irrelevant directories
         if (entry.name === 'node_modules' || entry.name.startsWith('.')) {
           continue;
         }
@@ -34,7 +50,11 @@ async function getRepositoryContents(repoName: string, fileCount: string): Promi
         if (entry.isDirectory()) {
           await readDirectory(fullPath);
         } else if (entry.isFile()) {
-          allFiles.push(fullPath);
+            const ext = path.extname(entry.name).toLowerCase();
+            const basename = path.basename(entry.name).toLowerCase();
+            if (RELEVANT_EXTENSIONS.has(ext) || RELEVANT_EXTENSIONS.has(basename)) {
+                 allFiles.push(fullPath);
+            }
         }
       }
     } catch (error) {
@@ -88,7 +108,7 @@ export async function analyzeRepositoryAction(
     if (repositoryContents.length < 10) {
        return {
             error: 'Empty Repository',
-            message: 'The selected repository is empty or contains no files.',
+            message: 'The selected repository is empty or contains no relevant files to analyze.',
         };
     }
     
