@@ -1,0 +1,215 @@
+.TabBar {
+  border: none;
+  max-height: 40px;
+  flex: 1 1 auto;
+  display: flex !important;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-app-region: drag;
+  padding: 6px 8px;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.TabBar-nonDrag {
+  flex-grow: 1;
+  -webkit-app-region: no-drag;
+}
+
+.TabBar .serverTabItem span {
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-font-smoothing: auto;
+}
+
+.TabBar>li {
+  -webkit-app-region: no-drag;
+  -webkit-user-select: none;
+  min-width: 48px;
+  max-width: 224px;
+  position: relative;
+  margin: 0 2px;
+}
+
+.TabBar>li>a {
+  display: block;
+  cursor: pointer;
+  color: rgba(61,60,64,0.7);
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: -0.2px;
+  transition: 0.3s;
+  line-height: 18px;
+  border-radius: 4px;
+  border: none !important;
+  padding: 0;
+  text-decoration: none;
+}
+
+.TabBar>li>a.disabled {
+  color: #6c757d;
+  background-color: transparent;
+  pointer-events: none;
+  cursor: default;
+}
+
+.TabBar.darkMode>li>a {
+  color: rgba(221,221,221,0.64);
+}
+
+.TabBar.darkMode>li>a.disabled {
+  color: #6c757d;
+}
+
+.TabBar>li>a:hover {
+  background-color: rgba(255,255,255,0.56);
+  text-decoration: none;
+}
+
+.TabBar.darkMode>li>a:hover {
+  background-color: rgba(31, 31, 31, 0.56);
+}
+
+.TabBar>li>a:focus {
+  background-color: #fff;
+  color: #3d3c40;
+  text-decoration: none;
+}
+
+.TabBar>li.serverTabItem>a>div.TabBar-tabSeperator>.serverTabItem__close {
+    background: none;
+    border: none;
+    color: rgba(61,60,64,0.32);
+    margin-left: 6px;
+    padding: 0;
+}
+
+.TabBar>li.serverTabItem>a>div.TabBar-tabSeperator>.serverTabItem__close:hover {
+    color: #3d3c40;
+}
+
+.TabBar.darkMode>li.serverTabItem>a>div.TabBar-tabSeperator>.serverTabItem__close:hover {
+    color: #ddd;
+}
+
+.TabBar>li.serverTabItem>a>div.TabBar-tabSeperator>.serverTabItem__close>i::before {
+    margin: 0;
+}
+
+.TabBar.darkMode>li.serverTabItem>a>div.TabBar-tabSeperator>.serverTabItem__close {
+    color: rgba(221,221,221,0.32);
+}
+
+.TabBar.darkMode>li>a:focus {
+  background-color: #1f1f1f;
+  color: #ddd;
+}
+
+.TabBar>li>a>div.TabBar-tabSeperator {
+  display: flex;
+  padding: 5px 12px;
+  align-items: center;
+}
+
+.TabBar>li.serverTabItem.active>a, .TabBar>li.serverTabItem.dragging>a {
+  border: none;
+  background-color: #fff;
+  color: #3d3c40;
+  z-index: 9;
+}
+
+.TabBar.darkMode>li.serverTabItem.active>a, .TabBar.darkMode>li.serverTabItem.dragging>a {
+    background-color: #1f1f1f;
+    color: #ddd;
+}
+
+.TabBar>li.serverTabItem:not(.active)+li.serverTabItem:not(.active)>a>div.TabBar-tabSeperator {
+  border-left: 1px solid rgba(61,60,64,0.08);
+  margin-left: -1px;
+}
+
+.TabBar.darkMode>li.serverTabItem:not(.active)+li.serverTabItem:not(.active)>a>div.TabBar-tabSeperator {
+  border-left: 1px solid rgba(221,221,221,0.08);
+  margin-left: -1px;
+}
+
+.TabBar>li.serverTabItem:not(.active):not(.disabled):hover+.TabBar-addServerButton>a>div.TabBar-tabSeperator {
+  border-left: none;
+  margin-left: 0px;
+}
+
+.TabBar>li.serverTabItem:not(.active):not(.disabled):hover+li.serverTabItem:not(.active)>a>div.TabBar-tabSeperator {
+  border-left: none;
+  margin-left: 0px;
+}
+
+.TabBar>li.serverTabItem:not(.active):not(.disabled)+li.serverTabItem:not(.active)>a:hover>div.TabBar-tabSeperator {
+  border-left: none;
+  margin-left: 0px;
+}
+
+.TabBar .TabBar-dot {
+  background: #579eff;
+  float: right;
+  height: 8px;
+  width: 8px;
+  margin-left: 8px;
+  border-radius: 4px;
+  flex: 0 0 8px;
+}
+
+.TabBar.darkMode .TabBar-dot {
+  background: #196CAF;
+}
+
+.TabBar .TabBar-expired {
+  float: right;
+  font-size: 18px;
+  line-height: 12px;
+  margin-left: 8px;
+  color: rgba(61,60,64,0.32);
+}
+
+.TabBar .TabBar-expired>i::before {
+    margin: 0;
+  }
+
+.TabBar.darkMode .TabBar-expired {
+    color: rgba(221,221,221,0.32);
+}
+
+.TabBar .TabBar-badge {
+    background: #F74343;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: white;
+    font-size: 9px;
+    padding: 0px 5px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    letter-spacing: normal;
+    -webkit-font-smoothing: auto;
+    
+    margin-left: 6px;
+    height: 12px;
+}
+
+.TabBar .TabBar-badge.TabBar-badge-nomention:after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  display: block;
+  border-radius: 50%;
+}
+
+.TabBar .serverTabItem-unread {
+  font-weight: bold;
+}
