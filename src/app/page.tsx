@@ -33,11 +33,9 @@ export default async function Home() {
       </Sidebar>
       <SidebarInset>
         <header className="flex h-14 items-center justify-between gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6">
-           <SidebarTrigger asChild className="md:hidden">
-              <Button size="icon" variant="outline">
-                <PanelLeft />
-                <span className="sr-only">Toggle sidebar</span>
-              </Button>
+           <SidebarTrigger className="md:hidden">
+              <PanelLeft />
+              <span className="sr-only">Toggle sidebar</span>
             </SidebarTrigger>
             <div className="flex-1">
               <h1 className="text-lg font-semibold">Repository Analysis</h1>

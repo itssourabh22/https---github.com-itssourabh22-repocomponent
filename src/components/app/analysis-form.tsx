@@ -41,6 +41,8 @@ export function AnalysisForm({ repositories }: AnalysisFormProps) {
   const [result, setResult] = useState<AnalyzeRepositoryOutput | undefined>();
   const [selectedRepo, setSelectedRepo] = useState<string>(repositories[0] || '');
   const [selectedModel, setSelectedModel] = useState<string>('gemini-1.5-flash');
+  const [fileCount, setFileCount] = useState<string>('all');
+
 
   useEffect(() => {
     if (state.result) {
@@ -97,6 +99,21 @@ export function AnalysisForm({ repositories }: AnalysisFormProps) {
                     <Label htmlFor="apiKey">Google AI API Key (Optional)</Label>
                     <Input id="apiKey" name="apiKey" type="password" placeholder="Enter your API Key" className="h-11 text-base" />
                 </div>
+            </div>
+
+            <div className='space-y-2'>
+                <Label htmlFor="fileCount">Files to process</Label>
+                <Select name="fileCount" required value={fileCount} onValueChange={setFileCount}>
+                <SelectTrigger id="fileCount" className="w-full h-11 text-base">
+                    <SelectValue placeholder="Select number of files..." />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="15">15</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
+                </SelectContent>
+                </Select>
             </div>
             
             <p className="text-xs text-muted-foreground pt-2">
