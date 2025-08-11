@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ComponentCatalog } from './component-catalog';
 import { SystemMap } from './system-map';
 import type { AnalyzeRepositoryOutput } from '@/ai/flows/analyze-repository';
-import { Card, CardContent } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -39,8 +39,8 @@ interface AnalysisFormProps {
 export function AnalysisForm({ repositories }: AnalysisFormProps) {
   const [state, formAction] = useActionState(analyzeRepositoryAction, initialState);
   const [result, setResult] = useState<AnalyzeRepositoryOutput | undefined>();
-  const [selectedRepo, setSelectedRepo] = useState<string>('');
-  const [selectedModel, setSelectedModel] = useState<string>('gemini-2.0-flash');
+  const [selectedRepo, setSelectedRepo] = useState<string>(repositories[0] || '');
+  const [selectedModel, setSelectedModel] = useState<string>('gemini-1.5-flash');
 
   useEffect(() => {
     if (state.result) {
@@ -56,50 +56,58 @@ export function AnalysisForm({ repositories }: AnalysisFormProps) {
   return (
     <div className="space-y-8">
       <Card>
-        <form action={formAction} className="space-y-4 p-6">
-          <div className='space-y-2'>
-            <Label htmlFor="repository">Repository</Label>
-            <Select name="repository" required value={selectedRepo} onValueChange={setSelectedRepo}>
-                <SelectTrigger id="repository" className="w-full h-12 text-base">
-                  <SelectValue placeholder="Select a repository to analyze..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {repositories.length > 0 ? (
-                      repositories.map(repo => (
-                          <SelectItem key={repo} value={repo}>{repo}</SelectItem>
-                      ))
-                  ) : (
-                      <div className="p-4 text-sm text-muted-foreground">No repositories found. Add a project folder to `public/repo` to get started.</div>
-                  )}
-                </SelectContent>
-            </Select>
-          </div>
+        <CardHeader>
+            <CardTitle>Configuration</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <form action={formAction} className="space-y-4">
+            <div className='space-y-2'>
+                <Label htmlFor="repository">Repository</Label>
+                <Select name="repository" required value={selectedRepo} onValueChange={setSelectedRepo}>
+                    <SelectTrigger id="repository" className="w-full h-11 text-base">
+                    <SelectValue placeholder="Select a repository to analyze..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                    {repositories.length > 0 ? (
+                        repositories.map(repo => (
+                            <SelectItem key={repo} value={repo}>{repo}</SelectItem>
+                        ))
+                    ) : (
+                        <div className="p-4 text-sm text-muted-foreground">No repositories found. Add a project folder to `public/repo` to get started.</div>
+                    )}
+                    </SelectContent>
+                </Select>
+            </div>
 
-          <div className='space-y-2'>
-            <Label htmlFor="model">AI Model</Label>
-            <Select name="model" required value={selectedModel} onValueChange={setSelectedModel}>
-              <SelectTrigger id="model" className="w-full h-12 text-base">
-                <SelectValue placeholder="Select a model..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="gemini-2.0-flash">Gemini 2.0 Flash</SelectItem>
-                <SelectItem value="gemini-1.5-pro">Gemini 1.5 Pro</SelectItem>
-                <SelectItem value="gemini-1.5-flash">Gemini 1.5 Flash</SelectItem>
-                <SelectItem value="gemini-pro">Gemini Pro</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className='space-y-2'>
-            <Label htmlFor="apiKey">Google AI API Key</Label>
-            <Input id="apiKey" name="apiKey" type="password" placeholder="Enter your API Key (optional)" className="h-12 text-base" />
-             <p className="text-xs text-muted-foreground">
-              Your API key is sent with each request and not stored. If left blank, the server's environment variable will be used.
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className='space-y-2'>
+                    <Label htmlFor="model">AI Model</Label>
+                    <Select name="model" required value={selectedModel} onValueChange={setSelectedModel}>
+                    <SelectTrigger id="model" className="w-full h-11 text-base">
+                        <SelectValue placeholder="Select a model..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="gemini-1.5-pro">Gemini 1.5 Pro</SelectItem>
+                        <SelectItem value="gemini-1.5-flash">Gemini 1.5 Flash</SelectItem>
+                        <SelectItem value="gemini-pro">Gemini Pro</SelectItem>
+                    </SelectContent>
+                    </Select>
+                </div>
+                <div className='space-y-2'>
+                    <Label htmlFor="apiKey">Google AI API Key (Optional)</Label>
+                    <Input id="apiKey" name="apiKey" type="password" placeholder="Enter your API Key" className="h-11 text-base" />
+                </div>
+            </div>
+            
+            <p className="text-xs text-muted-foreground pt-2">
+                Your API key is sent with each request and not stored. If left blank, the server's environment variable will be used.
             </p>
-          </div>
 
-          <SubmitButton />
-        </form>
+            <div className="pt-2">
+                <SubmitButton />
+            </div>
+            </form>
+        </CardContent>
       </Card>
 
       {state.error && (

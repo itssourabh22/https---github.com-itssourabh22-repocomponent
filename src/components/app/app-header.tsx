@@ -3,15 +3,11 @@ import Link from 'next/link';
 
 export function AppHeader() {
   return (
-    <header className="border-b sticky top-0 bg-background/95 backdrop-blur z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-            <GitBranch className="h-6 w-6 text-primary" />
-            <span className="font-headline">RepoSight</span>
-          </Link>
-        </div>
+    <Link href="/" className="group flex items-center gap-2 font-bold text-lg text-sidebar-foreground">
+      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sidebar-accent text-sidebar-accent-foreground transition-colors group-hover:bg-sidebar-primary group-hover:text-sidebar-primary-foreground">
+        <GitBranch className="h-5 w-5" />
       </div>
-    </header>
+      <span className="font-headline text-lg group-data-[collapsible=icon]:hidden">RepoSight</span>
+    </Link>
   );
 }
