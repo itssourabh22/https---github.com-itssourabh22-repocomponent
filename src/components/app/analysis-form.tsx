@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { analyzeRepositoryAction } from '@/app/actions';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, Terminal } from 'lucide-react';
+import { Loader2, Terminal, FolderGit } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ComponentCatalog } from './component-catalog';
 import { SystemMap } from './system-map';
 import type { AnalyzeRepositoryOutput } from '@/ai/flows/analyze-repository';
 import { Card } from '../ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 const initialState = {
   message: '',
@@ -29,9 +29,14 @@ function SubmitButton() {
   );
 }
 
-export function AnalysisForm() {
+interface AnalysisFormProps {
+    repositories: string[];
+}
+
+export function AnalysisForm({ repositories }: AnalysisFormProps) {
   const [state, formAction] = useFormState(analyzeRepositoryAction, initialState);
   const [result, setResult] = useState<AnalyzeRepositoryOutput | undefined>();
+  const [selectedRepo, setSelectedRepo] = useState<string>('');
 
   useEffect(() => {
     if (state.result) {
@@ -48,12 +53,20 @@ export function AnalysisForm() {
     <div className="space-y-8">
       <Card>
         <form action={formAction} className="space-y-4 p-6">
-          <Textarea
-            name="repositoryContents"
-            placeholder="Paste your repository contents here... The more complete the code, the better the analysis."
-            className="min-h-[250px] bg-background font-code text-sm"
-            required
-          />
+           <Select name="repository" required value={selectedRepo} onValueChange={setSelectedRepo}>
+              <SelectTrigger className="w-full h-12 text-base">
+                <SelectValue placeholder="Select a repository to analyze..." />
+              </SelectTrigger>
+              <SelectContent>
+                {repositories.length > 0 ? (
+                    repositories.map(repo => (
+                        <SelectItem key={repo} value={repo}>{repo}</SelectItem>
+                    ))
+                ) : (
+                    <div className="p-4 text-sm text-muted-foreground">No repositories found. Add a project folder to `public/repo` to get started.</div>
+                )}
+              </SelectContent>
+            </Select>
           <SubmitButton />
         </form>
       </Card>
