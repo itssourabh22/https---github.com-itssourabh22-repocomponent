@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} dark`}>
+    <html lang="en" className={`${GeistSans.variable}`}>
       <body className="antialiased bg-background text-foreground min-h-screen flex flex-col">
         <SidebarProvider>
           {children}
