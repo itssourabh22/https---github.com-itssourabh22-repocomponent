@@ -8,6 +8,8 @@ import path from 'path';
 
 const FormSchema = z.object({
   repository: z.string().min(1, { message: 'Please select a repository.' }),
+  model: z.string().min(1, { message: 'Please select a model.' }),
+  apiKey: z.string().optional(),
 });
 
 export interface AnalyzeState {
@@ -44,6 +46,8 @@ export async function analyzeRepositoryAction(
 ): Promise<AnalyzeState> {
   const validatedFields = FormSchema.safeParse({
     repository: formData.get('repository'),
+    model: formData.get('model'),
+    apiKey: formData.get('apiKey'),
   });
 
   if (!validatedFields.success) {
@@ -63,7 +67,7 @@ export async function analyzeRepositoryAction(
         };
     }
     
-    const result = await analyzeRepository({ repositoryContents });
+    const result = await analyzeRepository({ repositoryContents, model: validatedFields.data.model, apiKey: validatedFields.data.apiKey });
     return { result, message: 'Analysis successful.' };
   } catch (e: any) {
     console.error(e);
