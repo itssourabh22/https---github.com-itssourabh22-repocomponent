@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import React, { useEffect, useState, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { analyzeRepositoryAction } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -34,7 +34,7 @@ interface AnalysisFormProps {
 }
 
 export function AnalysisForm({ repositories }: AnalysisFormProps) {
-  const [state, formAction] = useFormState(analyzeRepositoryAction, initialState);
+  const [state, formAction] = useActionState(analyzeRepositoryAction, initialState);
   const [result, setResult] = useState<AnalyzeRepositoryOutput | undefined>();
   const [selectedRepo, setSelectedRepo] = useState<string>('');
 
